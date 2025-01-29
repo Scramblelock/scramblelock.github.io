@@ -139,7 +139,7 @@ export const PROJECTS = [
   },
   {
     name: 'Crown Clothing',
-    link: 'https://crwn-clothingltd.herokuapp.com/',
+    link: 'https://crwn-clothing-v2-sigma.vercel.app/',
     description: 'React + Redux + Firebase + Stripe',
     src: crown,
   },
