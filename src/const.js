@@ -224,6 +224,7 @@ export const SKILLS = [
       'AWS',
       'Jest',
       'Postman',
+      'Google Tag Manager',
       'Google Analytics',
       'Wordpress',
     ],
