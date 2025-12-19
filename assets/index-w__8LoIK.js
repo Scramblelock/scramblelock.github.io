@@ -45,7 +45,7 @@ Error generating stack: `+o.message+`
         applying the latest technologies. My background as a scientist has
         helped me be a better problem solver and has given me a sharp and
         disciplined attention to detail. I also have a very strong artistic
-        side, the result of being involved in Hip Hop culture (`,b1:"as a dancer and artist",par3:`) or over 20 years. My graphic design, video editing and brush
+        side, the result of being involved in Hip Hop culture (`,b1:"as a dancer and artist",par3:`) for over 20 years. My graphic design, video editing and brush
         lettering skills developed from a love for graffiti and street art. The
         approach I took to learning dances like b-boying and locking has helped
         me become a creative artist, community leader and an effective teacher.`,par4:` I've travelled the world, working with people from all walks of life.
