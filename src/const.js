@@ -194,6 +194,7 @@ export const SKILLS = [
       'HTML',
       'CSS',
       'JavaScript',
+      'TypeScript',
       'React',
       'NextJS',
       'Vite',
