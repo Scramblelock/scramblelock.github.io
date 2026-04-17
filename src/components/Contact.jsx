@@ -4,6 +4,8 @@ import canadianTuxedo from '../assets/Images/canadianTuxedo.jpg'
 import axios from 'axios'
 import { COLORS, FONTS } from '../const'
 
+const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL
+
 const ContactContainer = styled.div`
   padding: 5% 0 15% 0;
 `
@@ -92,6 +94,38 @@ const Image = styled.img`
   width: 100%;
 `
 
+const FORM_FIELDS = {
+  name: 'name',
+  email: 'email',
+  message: 'message',
+}
+
+const TEXT_SANITIZERS = {
+  [FORM_FIELDS.name]: (value) =>
+    value.replace(/[^\p{L}\p{M}\s.'-]/gu, '').slice(0, 100),
+  [FORM_FIELDS.email]: (value) =>
+    value.replace(/[^\w.!#$%&'*+/=?^`{|}~@-]/g, '').slice(0, 254),
+  [FORM_FIELDS.message]: (value) =>
+    value
+      .replace(/[<>]/g, '')
+      .split('')
+      .filter((character) => {
+        const code = character.charCodeAt(0)
+
+        return code === 9 || code === 10 || code === 13 || code >= 32
+      })
+      .join('')
+      .slice(0, 2000),
+}
+
+const sanitizeText = (fieldName, value) => {
+  if (!Object.values(FORM_FIELDS).includes(fieldName)) {
+    return null
+  }
+
+  return TEXT_SANITIZERS[fieldName](value)
+}
+
 export const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -103,7 +137,13 @@ export const Contact = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
+    const sanitizedValue = sanitizeText(name, value)
+
+    if (sanitizedValue === null) {
+      return
+    }
+
+    setFormData({ ...formData, [name]: sanitizedValue })
     setErrors({ ...errors, [name]: '' }) // Reset error on change
   }
 
@@ -145,10 +185,17 @@ export const Contact = () => {
     setButtonText('...sending')
 
     try {
-      const res = await axios.post(
-        'https://portfolio-api-beta.vercel.app/api/send',
-        formData
-      )
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      }
+
+      if (!CONTACT_API_URL) {
+        throw new Error('Missing contact API URL')
+      }
+
+      const res = await axios.post(CONTACT_API_URL, payload)
 
       if (res.data.msg === 'success') {
         resetForm()
@@ -181,6 +228,8 @@ export const Contact = () => {
               name='name'
               type='text'
               placeholder='Name'
+              autoComplete='name'
+              maxLength='100'
               value={formData.name}
               onChange={handleChange}
             />
@@ -190,6 +239,8 @@ export const Contact = () => {
               name='email'
               type='email'
               placeholder='Email'
+              autoComplete='email'
+              maxLength='254'
               required
               value={formData.email}
               onChange={handleChange}
@@ -199,6 +250,7 @@ export const Contact = () => {
             <MessageInput
               name='message'
               placeholder='Your message'
+              maxLength='2000'
               required
               value={formData.message}
               onChange={handleChange}
