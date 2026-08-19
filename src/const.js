@@ -220,6 +220,7 @@ export const SKILLS = [
   {
     title: 'Other',
     items: [
+      'Certified Kibo Developer',
       'Certified Salesforce B2C Commerce Developer',
       'Google Cloud',
       'AWS',
